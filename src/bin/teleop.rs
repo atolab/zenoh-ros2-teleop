@@ -13,13 +13,16 @@ async fn main() {
     let router = &args[1];
 
 
-    let zenoh = Arc::new(Zenoh::new(config::client(Some(router.to_string()))).await.unwrap());
-    let ws = Arc::new(zenoh.workspace(None).await.unwrap());
+    let zenoh = Zenoh::new(config::client(Some(router.to_string()))).await.unwrap();
+    //let zenoh = Arc::new(Zenoh::new(config::client(Some(router.to_string()))).await.unwrap());
+    //let ws = Arc::new(zenoh.workspace(None).await.unwrap());
 
 
     // let mut remote = RemoteControl::new(router).await.unwrap();
 
-    let remote = RemoteControl::new(ws).await.unwrap();
+    let mut remote = RemoteControl::new(&zenoh).await.unwrap();
+    remote.initialize().await.unwrap();
+
 
     let mut gilrs = Gilrs::new().unwrap();
 
