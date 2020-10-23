@@ -91,7 +91,14 @@ async fn main() {
 
             //println!("Joypad Info {:?}", &joypad_info);
             //remote.send_command(&joypad_info).await.unwrap();
-            car.curr_speed = joypad_info.r_trigger * car.max_speed;
+            if joypad_info.r_trigger > 0.0 {
+                car.curr_speed = joypad_info.r_trigger * car.max_speed;
+            } else if joypad_info.l_trigger > 0.0 {
+                car.curr_speed = -joypad_info.l_trigger * car.max_speed;
+            } else {
+                car.curr_speed = 0.0;
+            }
+            
             car.curr_steer = joypad_info.l_stick_x * car.max_steer;
 
             let cc = CarControl{
