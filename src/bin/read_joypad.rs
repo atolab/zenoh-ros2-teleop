@@ -1,26 +1,10 @@
-extern crate serde;
-extern crate serde_json;
-
-use serde::{Serialize, Deserialize};
-
-
 use gilrs::{Gilrs, Button, Event, EventType,  Axis, PowerInfo};
+
 use zteleop::*;
 use std::env;
 
 use zenoh::*;
 use async_std::sync::Arc;
-
-#[derive(Debug)]
-struct Car {
-    pub max_speed : f32,
-    pub max_steer: f32,
-    pub curr_speed : f32,
-    pub curr_steer: f32
-
-}
-
-
 
 #[async_std::main]
 async fn main() {
@@ -30,15 +14,11 @@ async fn main() {
 
 
     let zenoh = Zenoh::new(config::client(Some(router.to_string()))).await.unwrap();
+    //let zenoh = Arc::new(Zenoh::new(config::client(Some(router.to_string()))).await.unwrap());
+    //let ws = Arc::new(zenoh.workspace(None).await.unwrap());
 
 
-
-    let mut car : Car = Car{
-        max_speed : 0.22,
-        max_steer : 2.84,
-        curr_speed : 0.0,
-        curr_steer : 0.0,
-    };
+    // let mut remote = RemoteControl::new(router).await.unwrap();
 
     let mut remote = RemoteControl::new(&zenoh).await.unwrap();
     remote.initialize().await.unwrap();
@@ -90,15 +70,7 @@ async fn main() {
             }
 
             //println!("Joypad Info {:?}", &joypad_info);
-            //remote.send_command(&joypad_info).await.unwrap();
-            car.curr_speed = joypad_info.r_trigger * car.max_speed;
-            car.curr_steer = joypad_info.l_stick_x * car.max_steer;
-
-            let cc = CarControl{
-                control_linear_velocity : car.curr_speed,
-                control_angular_velocity : car.curr_steer,
-            };
-            remote.send_car_control(&cc).await.unwrap();
+            remote.send_command(&joypad_info).await.unwrap();
 
         }
 
