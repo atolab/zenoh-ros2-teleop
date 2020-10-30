@@ -34,7 +34,7 @@ async fn main() {
     let args: Vec<String> = env::args().collect();
     let router = &args[1];
 
-    let zenoh = Zenoh::new(config::client(Some(router.to_string()))).await.unwrap();
+    let zenoh = Zenoh::new(net::config::client(Some(router.to_string()))).await.unwrap();
     //let ws = Arc::new(zenoh.workspace(None).await.unwrap());
 
     //let remote = RemoteControl::new(router).await.unwrap();

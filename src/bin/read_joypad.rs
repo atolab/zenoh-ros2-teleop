@@ -13,7 +13,7 @@ async fn main() {
     let router = &args[1];
 
 
-    let zenoh = Zenoh::new(config::client(Some(router.to_string()))).await.unwrap();
+    let zenoh = Zenoh::new(net::config::client(Some(router.to_string()))).await.unwrap();
     //let zenoh = Arc::new(Zenoh::new(config::client(Some(router.to_string()))).await.unwrap());
     //let ws = Arc::new(zenoh.workspace(None).await.unwrap());
 

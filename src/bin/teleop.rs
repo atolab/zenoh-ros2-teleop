@@ -29,7 +29,7 @@ async fn main() {
     let router = &args[1];
 
 
-    let zenoh = Zenoh::new(config::client(Some(router.to_string()))).await.unwrap();
+    let zenoh = Zenoh::new(net::config::client(Some(router.to_string()))).await.unwrap();
 
 
 
@@ -98,7 +98,7 @@ async fn main() {
             } else {
                 car.curr_speed = 0.0;
             }
-            
+
             car.curr_steer = joypad_info.l_stick_x * car.max_steer;
 
             let cc = CarControl{
