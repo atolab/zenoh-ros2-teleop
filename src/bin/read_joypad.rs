@@ -69,7 +69,7 @@ async fn main() {
                 }
             }
 
-            //println!("Joypad Info {:?}", &joypad_info);
+            println!("Joypad Info {:?}", &joypad_info);
             remote.send_command(&joypad_info).await.unwrap();
 
         }
