@@ -99,7 +99,7 @@ async fn main() {
                 car.curr_speed = 0.0;
             }
 
-            car.curr_steer = joypad_info.l_stick_x * car.max_steer;
+            car.curr_steer = -joypad_info.l_stick_x * car.max_steer;
 
             let cc = CarControl{
                 control_linear_velocity : car.curr_speed,
